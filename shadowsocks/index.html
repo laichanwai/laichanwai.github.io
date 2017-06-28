@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>最简单最快速的方式在 CentOS 下搭建 shadowsocks | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="CentOS,Linux,VPN,VPS,shadowsocks," />
+  
+
+  <meta name="description" content="说到最简单最快速的方式搭建 shadowsock，那就当然是用一键脚本 接下来我们用一键脚本来快速搭建 shadowsock 开始安装1234cd /tmpwget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev.shchmo">
+<meta name="keywords" content="CentOS,Linux,VPN,VPS,shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最简单最快速的方式在 CentOS 下搭建 shadowsocks">
+<meta property="og:url" content="http://laizw.cn/shadowsocks/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="说到最简单最快速的方式搭建 shadowsock，那就当然是用一键脚本 接下来我们用一键脚本来快速搭建 shadowsock 开始安装1234cd /tmpwget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev.shchmo">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_11:53:57.jpg-mark">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_11:54:51.jpg-mark">
+<meta property="og:updated_time" content="2016-06-04T06:19:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最简单最快速的方式在 CentOS 下搭建 shadowsocks">
+<meta name="twitter:description" content="说到最简单最快速的方式搭建 shadowsock，那就当然是用一键脚本 接下来我们用一键脚本来快速搭建 shadowsock 开始安装1234cd /tmpwget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev.shchmo">
+<meta name="twitter:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_11:53:57.jpg-mark">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            归档
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#开始安装"><span class="toc-text">开始安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载命令"><span class="toc-text">卸载命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他命令"><span class="toc-text">其他命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果以后你需要更改-shadowsock-的配置"><span class="toc-text">如果以后你需要更改 shadowsock 的配置</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-shadowsocks" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">最简单最快速的方式在 CentOS 下搭建 shadowsocks</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.06.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>laizw</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://laizw.cn/shadowsocks/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>说到最简单最快速的方式搭建 shadowsock，那就当然是用一键脚本</p>
+<p>接下来我们用一键脚本来快速搭建 shadowsock</p>
+<h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /tmp</div><div class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev.sh</div><div class="line">chmod +x shadowsocks-libev.sh</div><div class="line">./shadowsocks-libev.sh 2&gt;&amp;1 | tee shadowsocks-libev.log</div></pre></td></tr></table></figure>
+<p>设置密码：默认 teddysun.com</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_11:53:57.jpg-mark" alt="2016-06-04_11:53:57.jpg"></p>
+<p>设置端口：默认 8989</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_11:54:51.jpg-mark" alt="2016-06-04_11:54:51.jpg"></p>
+<p>然后按任意键开始安装，接下来就是等它安装完</p>
+<p>安装完之后会看到这个界面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Congratulations, shadowsocks-libev install completed!</div><div class="line">Your Server IP:your_server_ip</div><div class="line">Your Server Port:your_server_port</div><div class="line">Your Password:your_password</div><div class="line">Your Local IP:127.0.0.1</div><div class="line">Your Local Port:1080</div><div class="line">Your Encryption Method:aes-256-cfb</div><div class="line"></div><div class="line">Welcome to visit:https://teddysun.com/357.html</div><div class="line">Enjoy it!</div></pre></td></tr></table></figure>
+<p>查看是否已经安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -ef | grep ss-server | grep -v ps | grep -v grep</div></pre></td></tr></table></figure>
+<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /tmp  # 进入 shadowsocks-libev.sh 所在目录</div><div class="line">./shadowsocks-libev.sh uninstall</div></pre></td></tr></table></figure>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">service shadowsocks start   # 启动</div><div class="line">service shadowsocks stop    # 停止</div><div class="line">service shadowsocks restart # 重启</div></pre></td></tr></table></figure>
+<h3 id="如果以后你需要更改-shadowsock-的配置"><a href="#如果以后你需要更改-shadowsock-的配置" class="headerlink" title="如果以后你需要更改 shadowsock 的配置"></a>如果以后你需要更改 shadowsock 的配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi  /etc/shadowsocks-libev/config.json</div></pre></td></tr></table></figure>
+<p>支持 IPv4 与 IPv6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;server&quot;:[&quot;[::0]&quot;,&quot;0.0.0.0&quot;],</div><div class="line">    &quot;server_port&quot;:your_server_port,</div><div class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</div><div class="line">    &quot;local_port&quot;:1080,</div><div class="line">    &quot;password&quot;:&quot;your_password&quot;,</div><div class="line">    &quot;timeout&quot;:600,</div><div class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>感谢 <a href="https://teddysun.com/357.html" target="_blank" rel="external">秋水逸冰 CentOS下shadowsocks-libev一键安装脚本</a></p>
+<p>文章出自 <a href="http://laizw.cn">@laizw.cn</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">可以请我喝瓶可乐吗？</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/pptp/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/roommate/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              归档
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'laichanwai';
+    
+    var disqus_url = 'http://laizw.cn/shadowsocks/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//laichanwai.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

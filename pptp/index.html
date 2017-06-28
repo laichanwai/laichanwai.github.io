@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>VPN 攻略 在 CentOS 下搭建 PPTP | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="CentOS,Linux,PPTP,VPN,VPS," />
+  
+
+  <meta name="description" content="验证 ppp用cat命令检查是否开启ppp，一般服务器都是开启的。 12cat /dev/pppcat: /dev/ppp: No such device or address 出现这个结果，说明 ppp 没有安装 安装 PPP12yum updateyum -y install ppp iptables 安装 iptables 是为了做 NAT，让 PPTP 客户端能够通过 PPTP 服务器上外">
+<meta name="keywords" content="CentOS,Linux,PPTP,VPN,VPS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPN 攻略 在 CentOS 下搭建 PPTP">
+<meta property="og:url" content="http://laizw.cn/pptp/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="验证 ppp用cat命令检查是否开启ppp，一般服务器都是开启的。 12cat /dev/pppcat: /dev/ppp: No such device or address 出现这个结果，说明 ppp 没有安装 安装 PPP12yum updateyum -y install ppp iptables 安装 iptables 是为了做 NAT，让 PPTP 客户端能够通过 PPTP 服务器上外">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_12:16:07.jpg-mark">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_12:36:08.jpg-mark">
+<meta property="og:updated_time" content="2016-06-04T06:20:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VPN 攻略 在 CentOS 下搭建 PPTP">
+<meta name="twitter:description" content="验证 ppp用cat命令检查是否开启ppp，一般服务器都是开启的。 12cat /dev/pppcat: /dev/ppp: No such device or address 出现这个结果，说明 ppp 没有安装 安装 PPP12yum updateyum -y install ppp iptables 安装 iptables 是为了做 NAT，让 PPTP 客户端能够通过 PPTP 服务器上外">
+<meta name="twitter:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_12:16:07.jpg-mark">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            归档
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#验证-ppp"><span class="toc-text">验证 ppp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-PPP"><span class="toc-text">安装 PPP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置-PPTP"><span class="toc-text">配置 PPTP</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、-添加-服务端和客户端-IP"><span class="toc-text">1、 添加 服务端和客户端 IP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、-添加-DNS-服务器"><span class="toc-text">2、 添加 DNS 服务器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、-添加用户"><span class="toc-text">3、 添加用户</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4、-开启-IP-转发"><span class="toc-text">4、 开启 IP 转发</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5、-配置-iptables-转发"><span class="toc-text">5、 配置 iptables 转发</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、启动服务"><span class="toc-text">6、启动服务</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-pptp" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">VPN 攻略 在 CentOS 下搭建 PPTP</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.06.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>laizw</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://laizw.cn/pptp/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h3 id="验证-ppp"><a href="#验证-ppp" class="headerlink" title="验证 ppp"></a>验证 ppp</h3><p>用cat命令检查是否开启ppp，一般服务器都是开启的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cat /dev/ppp</div><div class="line">cat: /dev/ppp: No such device or address</div></pre></td></tr></table></figure>
+<p>出现这个结果，说明 ppp 没有安装</p>
+<h3 id="安装-PPP"><a href="#安装-PPP" class="headerlink" title="安装 PPP"></a>安装 PPP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum update</div><div class="line">yum -y install ppp iptables</div></pre></td></tr></table></figure>
+<p>安装 iptables 是为了做 NAT，让 PPTP 客户端能够通过 PPTP 服务器上外网，不过一般情况下 iptables 默认都是系统装好后就已经有了。</p>
+<p>我们来看一下安装的 ppp 是什么版本</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_12:16:07.jpg-mark" alt="2016-06-04_12:16:07.jpg"></p>
+<p>可以看到是 ppp 版本是 2.4.5-10.el6<br>在网站 <a href="http://poptop.sourceforge.net/yum/stable/packages/" target="_blank" rel="external">sourceforge</a> 上有所有版本的 PPTP，选择对应的版本下载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd \tmp</div><div class="line">wget http://poptop.sourceforge.net/yum/stable/packages/pptpd-1.4.0-1.el6.x86_64.rpm</div><div class="line">rpm -ivh pptpd-1.4.0-1.el6.x86_64.rpm</div></pre></td></tr></table></figure>
+<p>安装到这就完了。</p>
+<h3 id="配置-PPTP"><a href="#配置-PPTP" class="headerlink" title="配置 PPTP"></a>配置 PPTP</h3><h5 id="1、-添加-服务端和客户端-IP"><a href="#1、-添加-服务端和客户端-IP" class="headerlink" title="1、 添加 服务端和客户端 IP"></a>1、 添加 服务端和客户端 IP</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/pptpd.conf</div></pre></td></tr></table></figure>
+<p>在最底下添加这两行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">localip 10.0.0.1</div><div class="line">remoteip 10.0.0.2-10</div></pre></td></tr></table></figure>
+<p>localip 是 pptp 服务器端 IP</p>
+<p>remoteip 是客户端获取的 IP 地址范围，上面是分配了 10.0.0.2 ~ 10.0.0.10 这个范围</p>
+<h5 id="2、-添加-DNS-服务器"><a href="#2、-添加-DNS-服务器" class="headerlink" title="2、 添加 DNS 服务器"></a>2、 添加 DNS 服务器</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/ppp/options.pptpd</div></pre></td></tr></table></figure>
+<p>在最后添加这三行，你也可以改成自己想要的 DNS 服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># DNS</div><div class="line">ms-dns 8.8.8.8</div><div class="line">ms-dns 8.8.4.4</div></pre></td></tr></table></figure>
+<h5 id="3、-添加用户"><a href="#3、-添加用户" class="headerlink" title="3、 添加用户"></a>3、 添加用户</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/ppp/chap-secrets</div></pre></td></tr></table></figure>
+<p>client 填用户名，server 填 pptpd 或者 <em>，secret 填用户密码，IP 填给用户分配的 IP 可以指定 IP，不指定的填 </em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Secrets for authentication using CHAP</div><div class="line"># client        server          secret                  IP addresses</div><div class="line">vpn_1           pptpd           password                *</div><div class="line">vpn_2           pptpd           password                10.0.0.2</div></pre></td></tr></table></figure>
+<h5 id="4、-开启-IP-转发"><a href="#4、-开启-IP-转发" class="headerlink" title="4、 开启 IP 转发"></a>4、 开启 IP 转发</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysctl.conf</div></pre></td></tr></table></figure>
+<p>把 <code>net.ipv4.ip_forward</code> 改为 <code>1</code></p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/image/2016-06-04_12:36:08.jpg-mark" alt="2016-06-04_12:36:08.jpg"></p>
+<p>执行下面命令使内核配置生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl -p</div></pre></td></tr></table></figure>
+<p>要是出现这种情况，不用管可以忽略</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">error: &quot;net.bridge.bridge-nf-call-ip6tables&quot; is an unknown key</div><div class="line">error: &quot;net.bridge.bridge-nf-call-iptables&quot; is an unknown key</div><div class="line">error: &quot;net.bridge.bridge-nf-call-arptables&quot; is an unknown key</div></pre></td></tr></table></figure>
+<h5 id="5、-配置-iptables-转发"><a href="#5、-配置-iptables-转发" class="headerlink" title="5、 配置 iptables 转发"></a>5、 配置 iptables 转发</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -j SNAT --to-source server_ip</div></pre></td></tr></table></figure>
+<p>这条命令是把 <code>10.0.0.0</code> 这个网段的 IP 通过你的服务器公网 IP 访问外网</p>
+<p><code>10.0.0.0</code> 是在第一步在 <code>/etc/pptpd.conf</code> 设置的 <code>remoteip</code>，如果你的设置跟教程里不一样，请改成你自己设置的 IP 段</p>
+<p><code>server_ip</code> 改成你自己的服务器 IP</p>
+<p>保存 iptables 配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service iptables save</div></pre></td></tr></table></figure>
+<h4 id="6、启动服务"><a href="#6、启动服务" class="headerlink" title="6、启动服务"></a>6、启动服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">service pptpd start</div><div class="line">service iptables start</div></pre></td></tr></table></figure>
+<p>设置为开机启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chkconfig pptpd on</div><div class="line">chkconfig iptables on</div></pre></td></tr></table></figure>
+<p>–</p>
+<p>接下来你就可以通过 VPN 采用 PPTP 连接方式 F*Q 了</p>
+<p>文章出自 <a href="http://laizw.cn">@laizw.cn</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">可以请我喝瓶可乐吗？</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/ghost-build/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/shadowsocks/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              归档
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'laichanwai';
+    
+    var disqus_url = 'http://laizw.cn/pptp/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//laichanwai.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

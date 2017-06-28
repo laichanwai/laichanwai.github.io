@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>给 PNChart 增加折线图折点显示数值及 bug 修复 | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,Blog," />
+  
+
+  <meta name="description" content="效果先来看看原来的效果图  然后我现在要给他增加功能，变成这样  代码改动改动文件：PNLineChart.swift  增加属性 public var yLabelInLine: Bool = false，默认为 false 以第一个图的方式显示。 修改方法  1234567891011121314151617181920212223242526// 修改这里的实现代码public var yL">
+<meta name="keywords" content="iOS,Blog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给 PNChart 增加折线图折点显示数值及 bug 修复">
+<meta property="og:url" content="http://laizw.cn/pnchart-ylabelinline/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="效果先来看看原来的效果图  然后我现在要给他增加功能，变成这样  代码改动改动文件：PNLineChart.swift  增加属性 public var yLabelInLine: Bool = false，默认为 false 以第一个图的方式显示。 修改方法  1234567891011121314151617181920212223242526// 修改这里的实现代码public var yL">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/github/pnchart_line.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/QQ20160528-1@2x.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/image/jpg/QQ20160529-0@2x.png">
+<meta property="og:updated_time" content="2016-08-26T04:14:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="给 PNChart 增加折线图折点显示数值及 bug 修复">
+<meta name="twitter:description" content="效果先来看看原来的效果图  然后我现在要给他增加功能，变成这样  代码改动改动文件：PNLineChart.swift  增加属性 public var yLabelInLine: Bool = false，默认为 false 以第一个图的方式显示。 修改方法  1234567891011121314151617181920212223242526// 修改这里的实现代码public var yL">
+<meta name="twitter:image" content="http://7xlykq.com1.z0.glb.clouddn.com/github/pnchart_line.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            归档
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码改动"><span class="toc-text">代码改动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bug-修复"><span class="toc-text">bug 修复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GitHub"><span class="toc-text">GitHub</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-pnchart-ylabelinline" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">给 PNChart 增加折线图折点显示数值及 bug 修复</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.29</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>laizw</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://laizw.cn/pnchart-ylabelinline/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>先来看看原来的效果图</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/github/pnchart_line.png" alt=""></p>
+<p>然后我现在要给他增加功能，变成这样</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/QQ20160528-1@2x.png" alt=""></p>
+<h3 id="代码改动"><a href="#代码改动" class="headerlink" title="代码改动"></a>代码改动</h3><p>改动文件：<code>PNLineChart.swift</code></p>
+<ul>
+<li>增加属性 <code>public var yLabelInLine: Bool = false</code>，<br>默认为 <code>false</code> 以第一个图的方式显示。</li>
+<li>修改方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">// 修改这里的实现代码</div><div class="line">public var yLabels: NSArray = []&#123;</div><div class="line">    didSet&#123;</div><div class="line">    	// 省略...</div><div class="line">    	</div><div class="line">        for value in yLabels</div><div class="line">        &#123;</div><div class="line">            let label: PNChartLabel!</div><div class="line">            if yLabelInLine &#123;</div><div class="line">                </div><div class="line">                let data = yLabelPositionBy(yValue: value)</div><div class="line">                label = PNChartLabel(frame: CGRect(x: data.0, y: data.1, width: CGFloat(chartMargin + 5.0), height: CGFloat(yLabelHeight) ) )</div><div class="line">                label.text = NSString(format:yLabelFormat, data.2) as String</div><div class="line">            &#125;else &#123;</div><div class="line">                </div><div class="line">                let labelY = chartCavanHeight - (index * yStepHeight)</div><div class="line">                label = PNChartLabel(frame: CGRect(x: 0.0, y: CGFloat(labelY), width: CGFloat(chartMargin + 5.0), height: CGFloat(yLabelHeight) ) )</div><div class="line">                label.text = NSString(format:yLabelFormat, Double(yValueMin + (yStep * index))) as String</div><div class="line">            &#125;</div><div class="line">            label.textAlignment = NSTextAlignment.Right</div><div class="line">            ++index</div><div class="line">            yPNLabels.append(label)</div><div class="line">            addSubview(label)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>添加方法 <code>yLabelPositionBy(yValue:)</code> 这个方法作用是计算出当前 <code>yLabel</code> 的位置和返回准确的数值(默认为保留两位小数的 float 类型)</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> var tempIndex:[Int] = []</div><div class="line"><span class="keyword">private</span> func yLabelPositionBy(yValue yValue: AnyObject) -&gt; (CGFloat, CGFloat, CGFloat) &#123;</div><div class="line">    <span class="keyword">for</span> d in <span class="number">0</span> ..&lt; chartData.count &#123;</div><div class="line">        let obj = chartData[d] as! PNLineChartData</div><div class="line">        <span class="keyword">for</span> i in <span class="number">0</span> ..&lt; obj.itemCount &#123;</div><div class="line">            <span class="keyword">if</span> !tempIndex.contains(d * <span class="number">10</span> + i) &amp;&amp; NSString(format: <span class="string">"%2f"</span>, obj.getData(i).y).isEqual(yValue) &#123;</div><div class="line">                </div><div class="line">                let yValue = CGFloat(obj.getData(i).y)</div><div class="line">                let innerGrade = (yValue - yValueMin) / (yValueMax - yValueMin)</div><div class="line">                </div><div class="line">                let x: CGFloat = <span class="number">2.0</span> * chartMargin +  (CGFloat(i) * xLabelWidth) - (xLabelWidth / <span class="number">2.0</span>)</div><div class="line">                let y: CGFloat = chartCavanHeight! - (innerGrade * chartCavanHeight!) + (yLabelHeight / <span class="number">2.0</span>) + <span class="number">5</span></div><div class="line">                </div><div class="line">                tempIndex.append(d * <span class="number">10</span> + i)</div><div class="line">                <span class="keyword">return</span> (x, y, yValue)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="bug-修复"><a href="#bug-修复" class="headerlink" title="bug 修复"></a>bug 修复</h3><p>在使用过程中遇到一个 bug，要是在同一个 <code>PNLineChart</code> 中多次绘制图表时，<code>xLabel</code> 和 <code>yLabel</code> 会重复创建，造成这种效果</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/image/jpg/QQ20160529-0@2x.png" alt=""></p>
+<p>所以我添加两个属性 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> var xPNLabels: [UILabel] = [] <span class="comment">// 存放 xLabels</span></div><div class="line"><span class="keyword">private</span> var yPNLabels: [UILabel] = [] <span class="comment">// 存放 yLabels</span></div></pre></td></tr></table></figure>
+<p>在每次创建 label 之前先把原先的 label 移除</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// xLabel didSet 中添加</span></div><div class="line"><span class="keyword">for</span> label in xPNLabels &#123; label.removeFromSuperview() &#125;</div><div class="line"></div><div class="line"><span class="comment">// yLabel didSet 中添加</span></div><div class="line"><span class="keyword">for</span> label in yPNLabels &#123; label.removeFromSuperview() &#125;</div></pre></td></tr></table></figure>
+<h3 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h3><p><a href="https://github.com/laichanwai/PNChart-Swift" target="_blank" rel="external">PNChart</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">可以请我喝瓶可乐吗？</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/dui-ghost-de-gan-wu/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/ghost-build/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              归档
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'laichanwai';
+    
+    var disqus_url = 'http://laizw.cn/pnchart-ylabelinline/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//laichanwai.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>教你一步一步用 Node.js 制作慕课网视频爬虫 | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Node.js,Blog," />
+  
+
+  <meta name="description" content="开始这个教程十分适合初学 Node.js 的初学者看(因为我也是一只初学的菜鸟~) 在这里，我就默认大家都已经在自己的电脑上搭建好 Node.js，我就不再多讲了，如果你是第一次接触 Node.js 那么先请到可以到Node.js 中文网(英文) 上看看，里面有完整的安装教程。 想直接看源码的可以直接移步到 github imooc-video-download。 第一步说到下载视频，首先我们要先">
+<meta name="keywords" content="Node.js,Blog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="教你一步一步用 Node.js 制作慕课网视频爬虫">
+<meta property="og:url" content="http://laizw.cn/imooc-spider/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="开始这个教程十分适合初学 Node.js 的初学者看(因为我也是一只初学的菜鸟~) 在这里，我就默认大家都已经在自己的电脑上搭建好 Node.js，我就不再多讲了，如果你是第一次接触 Node.js 那么先请到可以到Node.js 中文网(英文) 上看看，里面有完整的安装教程。 想直接看源码的可以直接移步到 github imooc-video-download。 第一步说到下载视频，首先我们要先">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1271031-70e69f952aa87f22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1271031-6c0883e5bf4c9bd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1271031-a7991d3a39b42a5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1271031-3065aa65368adc48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1271031-bc596d03332eb86e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-05-24T06:26:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="教你一步一步用 Node.js 制作慕课网视频爬虫">
+<meta name="twitter:description" content="开始这个教程十分适合初学 Node.js 的初学者看(因为我也是一只初学的菜鸟~) 在这里，我就默认大家都已经在自己的电脑上搭建好 Node.js，我就不再多讲了，如果你是第一次接触 Node.js 那么先请到可以到Node.js 中文网(英文) 上看看，里面有完整的安装教程。 想直接看源码的可以直接移步到 github imooc-video-download。 第一步说到下载视频，首先我们要先">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1271031-70e69f952aa87f22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            归档
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一步"><span class="toc-text">第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二步"><span class="toc-text">第二步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建一个项目"><span class="toc-text">新建一个项目:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装项目模块"><span class="toc-text">安装项目模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建入口文件"><span class="toc-text">新建入口文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三步"><span class="toc-text">第三步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引入模块依赖"><span class="toc-text">引入模块依赖:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搭好基本框架"><span class="toc-text">搭好基本框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四步"><span class="toc-text">第四步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析慕课网"><span class="toc-text">分析慕课网</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#源码解析"><span class="toc-text">源码解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#请求头分析"><span class="toc-text">请求头分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析视频-id-和-filename"><span class="toc-text">解析视频 id 和 filename</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#看看核心代码"><span class="toc-text">看看核心代码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#先写一个请求头："><span class="toc-text">先写一个请求头：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解析-html："><span class="toc-text">解析 html：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#获取下载地址："><span class="toc-text">获取下载地址：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#下载视频"><span class="toc-text">下载视频</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五步"><span class="toc-text">第五步</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-imooc-spider" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">教你一步一步用 Node.js 制作慕课网视频爬虫</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.23</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>laizw</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://laizw.cn/imooc-spider/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>这个教程十分适合初学 Node.js 的初学者看(因为我也是一只初学的菜鸟~)</p>
+<p>在这里，我就默认大家都已经在自己的电脑上搭建好 Node.js，我就不再多讲了，如果你是第一次接触 Node.js 那么先请到可以到<a href="http://nodejs.cn/" target="_blank" rel="external">Node.js 中文网</a>(<a href="https://nodejs.org/en/" target="_blank" rel="external">英文</a>) 上看看，里面有完整的安装教程。</p>
+<p>想直接看源码的可以直接移步到 github <a href="https://github.com/laichanwai/imooc-video-download" target="_blank" rel="external">imooc-video-download</a>。</p>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>说到下载视频，首先我们要先有个大概思路：</p>
+<ul>
+<li><strong>发送请求—&gt;获取视频下载地址-&gt;发送下载请求下载视频—&gt;把视频文件写入本地</strong></li>
+</ul>
+<ol>
+<li><p>因为需要发起请求，在这里我用到  <a href="http://visionmedia.github.io/superagent/" target="_blank" rel="external">superagent </a> 是个 http 方面的库，可以发起 get 或 post 请求。</p>
+</li>
+<li><p>因为要解析网页，在这里我使用  <a href="https://github.com/cheeriojs/cheerio" target="_blank" rel="external">cheerio </a> 我们可以把它当做一个 Node.js 版的 jquery，用来从网页中以 css selector 取数据，使用方式跟 jquery 一样的。</p>
+</li>
+<li><p>写文件的话就用 Node.js 自带的 <code>fs</code> 文件模块。</p>
+</li>
+</ol>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>既然思路有了，那就开始上代码吧~</p>
+<h3 id="新建一个项目"><a href="#新建一个项目" class="headerlink" title="新建一个项目:"></a>新建一个项目:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/Documents/NodeJs</div><div class="line">$ mkdir immoc-video-download</div><div class="line">$ <span class="built_in">cd</span> immoc-video-download</div><div class="line">$ npm init</div></pre></td></tr></table></figure>
+<p>ps：接下来会让你填很多信息，全部直接回车就可以（也可以认真写写）,最后需要输入 <code>yes</code> 加回车结束。</p>
+<p>我解释一下一步，<code>npm init</code> 是初始化一个项目，互动式帮我们生成一个最简单的 package.json 文件，而这个 package.json 文件包含我们项目名，作者，项目依赖等等信息。</p>
+<h3 id="安装项目模块"><a href="#安装项目模块" class="headerlink" title="安装项目模块"></a>安装项目模块</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install superagent cheerio --save</div></pre></td></tr></table></figure>
+<p><code>--save</code> 是个可选参数，加了它之后会自动帮我们把上面安装的两个模块自动写入到 package.json 里面。</p>
+<h3 id="新建入口文件"><a href="#新建入口文件" class="headerlink" title="新建入口文件"></a>新建入口文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ touch app.js <span class="comment">#新建一个名为 app.js 的文件</span></div></pre></td></tr></table></figure>
+<p>到这一步，这个爬虫项目所需要的环境和依赖的都已经准备好了。</p>
+<hr>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><h3 id="引入模块依赖"><a href="#引入模块依赖" class="headerlink" title="引入模块依赖:"></a>引入模块依赖:</h3><p>用编辑器打开 <em>app.js</em> 这个文件，在里面输入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> superagent = <span class="built_in">require</span>(<span class="string">'superagent'</span>);</div><div class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>);</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div></pre></td></tr></table></figure>
+<h3 id="搭好基本框架"><a href="#搭好基本框架" class="headerlink" title="搭好基本框架"></a>搭好基本框架</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> superagent = <span class="built_in">require</span>(<span class="string">'superagent'</span>);</div><div class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>);</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> url = <span class="string">'慕课网课程'</span></div><div class="line"><span class="keyword">var</span> savePath = <span class="string">'保存文件路径'</span></div><div class="line"></div><div class="line">superagent</div><div class="line">    .get(url)</div><div class="line">    .end(<span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</div><div class="line">        </div><div class="line">    &#125;)</div><div class="line"></div><div class="line"><span class="comment">// 获取视频 url</span></div><div class="line"><span class="keyword">var</span> getVideoUrl = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 下载视频</span></div><div class="line"><span class="keyword">var</span> downloadVideo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>基本框架已经没问题了，不过里面啥都没，怎么办？</p>
+<p>别慌，爬虫嘛，当然是在网页上爬数据。</p>
+<h2 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h2><h3 id="分析慕课网"><a href="#分析慕课网" class="headerlink" title="分析慕课网"></a>分析慕课网</h3><h4 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h4><p><strong>先上图！</strong><br><a href="http://www.imooc.com/learn/441" target="_blank" rel="external">http://www.imooc.com/learn/441</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1271031-70e69f952aa87f22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="imooc 源码"></p>
+<ul>
+<li><strong><em>看这里！！</em></strong></li>
+</ul>
+<ol>
+<li><p>我们来看看慕课网的网站源码，发现没？每个视频都有一个视频的id，再来看看课程的 <em>URL</em> 课程也有一个课程 ID 。</p>
+</li>
+<li><p>我们都知道这个网站的视频是需要登录之后才可以看观看的，这就代表我们在请求的时候要在 headers 里做些手脚，把 cookies 放进去</p>
+</li>
+</ol>
+<h4 id="请求头分析"><a href="#请求头分析" class="headerlink" title="请求头分析"></a>请求头分析</h4><p><strong>先上图！</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1271031-6c0883e5bf4c9bd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="imooc headers"></p>
+<p>看完这些我们应该有个大概清晰的思路了吧，废话不多说，完善代码。</p>
+<h3 id="解析视频-id-和-filename"><a href="#解析视频-id-和-filename" class="headerlink" title="解析视频 id 和 filename"></a>解析视频 id 和 filename</h3><h4 id="看看核心代码"><a href="#看看核心代码" class="headerlink" title="看看核心代码"></a>看看核心代码</h4><h5 id="先写一个请求头："><a href="#先写一个请求头：" class="headerlink" title="先写一个请求头："></a>先写一个请求头：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> headers = &#123;</div><div class="line">    <span class="string">"Cache-Control"</span>: <span class="string">"max-age=0"</span>,</div><div class="line">    <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"</span>,</div><div class="line">    <span class="string">"Referer"</span>: <span class="string">"http://www.imooc.com/"</span>,</div><div class="line">    <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate, sdch"</span>,</div><div class="line">    <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.8"</span>,</div><div class="line">    <span class="string">"Cookie"</span>: cookies <span class="comment">// 在外面定义一个 cookies 变量存放自己的 cookies</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>这里就是直接把上一个截图里的 request headers 里面的所有数据都 copy 进去。</p>
+<h5 id="解析-html："><a href="#解析-html：" class="headerlink" title="解析 html："></a>解析 html：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">superagent</div><div class="line">    .get(<span class="string">'www.imooc.com/learn/'</span> + courseId) <span class="comment">// 在外面设置一个 courseId 的参数</span></div><div class="line">    .set(headers)</div><div class="line">    .end(<span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</div><div class="line">        </div><div class="line">        <span class="comment">// res.text 通过请求获取的 html 页面</span></div><div class="line">        <span class="keyword">var</span> $ = cheerio.load(res.text);</div><div class="line">        </div><div class="line">        <span class="comment">// 获取课程的名称</span></div><div class="line">        $(<span class="string">'.course-infos .hd'</span>).find(<span class="string">'h2'</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">            courseTitle = $(<span class="keyword">this</span>).text();</div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="comment">// .chapter 是包含所有 video 的容器，这是 jquery 语法，为了获取所有的视频 id 和 filename</span></div><div class="line">        $(<span class="string">'.chapter'</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line"></div><div class="line">            <span class="keyword">var</span> videos = $(<span class="keyword">this</span>).find(<span class="string">'.video'</span>).children(<span class="string">'li'</span>)</div><div class="line"></div><div class="line">            videos.each(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">                <span class="keyword">var</span> video = $(<span class="keyword">this</span>).find(<span class="string">'a'</span>)</div><div class="line">                <span class="keyword">var</span> filename = video.text().replace(<span class="regexp">/(^\\\\\\\\s+)|(\\\\\\\\s+$)/g</span>,<span class="string">""</span>);</div><div class="line">                <span class="keyword">var</span> id = video.attr(<span class="string">'href'</span>).split(<span class="string">'video/'</span>)[<span class="number">1</span>]</div><div class="line">                </div><div class="line">                <span class="comment">// 视频 id 和 视频文件名字</span></div><div class="line">                <span class="built_in">console</span>.log(id， filename);</div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p>上面那段代码帮我们获取了每个视频的 id 和 它的文件名，那么接下来我们只需要获取它的视频下载地址就 ok。</p>
+<h5 id="获取下载地址："><a href="#获取下载地址：" class="headerlink" title="获取下载地址："></a>获取下载地址：</h5><p>这时候我们还得到视频播放页面去抓取一下网站播放视频请求的地址：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1271031-a7991d3a39b42a5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="imooc headers"></p>
+<p>在过滤器中输入视频的格式 mp4 过滤一下(找不到的话试试 flv 之类的)，看到出现了我们想要的 mp4 文件，是不是特别激动！！</p>
+<p>看一下头文件，什么鬼？！这串东西什么？？可以肯定，这不是我们想要的。</p>
+<p><em>我们试试输入视频 id 作过滤条件</em></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1271031-3065aa65368adc48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="imooc headers"></p>
+<p><em>点那个 preview(response显示的东西太长很难截图) 看看它给我们返回什么：</em><br><img src="http://upload-images.jianshu.io/upload_images/1271031-bc596d03332eb86e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="imooc headers"></p>
+<p>看！出来了。</p>
+<p>我们可以看到这是 ajax 请求的一个地址，没关系，既然给我们找到了，那就拼接一下就 ok 了。</p>
+<p>上代码！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getVideoUrl = <span class="function"><span class="keyword">function</span>(<span class="params">id, callback</span>) </span>&#123;</div><div class="line">    superagent.get(<span class="string">'http://www.imooc.com/course/ajaxmediainfo/?mid='</span> + id + <span class="string">'&amp;mode=flash'</span>)</div><div class="line">        .end(<span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> url = <span class="built_in">JSON</span>.parse(res.text);</div><div class="line"></div><div class="line">            <span class="keyword">if</span>(url.result == <span class="number">0</span>) &#123;</div><div class="line">                url = url.data.result.mpath[<span class="number">0</span>];</div><div class="line">                callback(url);</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="下载视频"><a href="#下载视频" class="headerlink" title="下载视频"></a>下载视频</h5><p>有了上面的 url 接下来我们的功夫就简单多了。</p>
+<p>直接上代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> downloadVideo = <span class="function"><span class="keyword">function</span>(<span class="params">url, filename, callback</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 去掉文件名后面的时间</span></div><div class="line">    <span class="comment">// 2-1 登录动画-冒泡 (10:53) —&gt; 2-1 登录动画-冒泡.mp4</span></div><div class="line">    filename = filename.replace(<span class="regexp">/\\\\\\\\(.*\\\\\\\\)/</span>,<span class="string">''</span>) + <span class="string">'.mp4'</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 创建一个以课程名字命名的目录存放视频</span></div><div class="line">    <span class="keyword">var</span> dirPath = savePath + courseTitle + <span class="string">'/'</span></div><div class="line">    <span class="keyword">if</span> (!fs.existsSync(dirPath)) &#123;</div><div class="line">        fs.mkdirSync(dirPath);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'开始下载第'</span> + courseTotalCount + <span class="string">'个视频'</span> + filename + <span class="string">' 地址: '</span> + url);</div><div class="line">    <span class="keyword">var</span> writeStream = fs.createWriteStream(dirPath + filename);</div><div class="line">    writeStream.on(<span class="string">'close'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">        callback(filename);</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    <span class="keyword">var</span> req = superagent.get(url)</div><div class="line">    req.pipe(writeStream);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看到这里是不是特别兴奋！！！</p>
+<p>别急，接着我们再加入这行代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> courseId = process.argv.splice(<span class="number">2</span>, <span class="number">1</span>);</div></pre></td></tr></table></figure>
+<p>ok！大功告成！</p>
+<h2 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h2><p>我们下载视频的时候只需要在终端执行下面这行命令就可以了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node app courseId <span class="comment"># 你想下载的视频 id</span></div></pre></td></tr></table></figure>
+<p>这个项目已上传到 github <a href="https://github.com/laichanwai/imooc-video-download" target="_blank" rel="external">imooc-video-download</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">可以请我喝瓶可乐吗？</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="hide pull-left" href="/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/about/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              归档
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'laichanwai';
+    
+    var disqus_url = 'http://laizw.cn/imooc-spider/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//laichanwai.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

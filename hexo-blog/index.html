@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>在 GitHub 上搭建 Hexo 个人博客 | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Node.js,Blog,Hexo," />
+  
+
+  <meta name="description" content="Hexo 简介Hexo 是一款基于 Node.js 的静态博客框架。 用 Hexo 搭建博客有很多好处:  首先它支持 Markdown，这样我们撰写博客就会变得十分方便。  Hexo 的扩展性也十分强大，它支持EJS、Swig，我们还可以通过插件让它支持Haml，Jade，Less等。  Hexo 支持多线程，生成几百篇文章所需要的时间只不过几秒钟。  Hexo 支持一键部署，只需要一条命令就可">
+<meta name="keywords" content="Node.js,Blog,Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 GitHub 上搭建 Hexo 个人博客">
+<meta property="og:url" content="http://laizw.cn/hexo-blog/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hexo 简介Hexo 是一款基于 Node.js 的静态博客框架。 用 Hexo 搭建博客有很多好处:  首先它支持 Markdown，这样我们撰写博客就会变得十分方便。  Hexo 的扩展性也十分强大，它支持EJS、Swig，我们还可以通过插件让它支持Haml，Jade，Less等。  Hexo 支持多线程，生成几百篇文章所需要的时间只不过几秒钟。  Hexo 支持一键部署，只需要一条命令就可">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-init.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-new.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-site.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-github.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-github-project.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-config-deploy.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-config-deploy-new.png">
+<meta property="og:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-github-ssh.png">
+<meta property="og:updated_time" content="2016-05-26T05:38:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 GitHub 上搭建 Hexo 个人博客">
+<meta name="twitter:description" content="Hexo 简介Hexo 是一款基于 Node.js 的静态博客框架。 用 Hexo 搭建博客有很多好处:  首先它支持 Markdown，这样我们撰写博客就会变得十分方便。  Hexo 的扩展性也十分强大，它支持EJS、Swig，我们还可以通过插件让它支持Haml，Jade，Less等。  Hexo 支持多线程，生成几百篇文章所需要的时间只不过几秒钟。  Hexo 支持一键部署，只需要一条命令就可">
+<meta name="twitter:image" content="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-init.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            归档
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-简介"><span class="toc-text">Hexo 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#废话不多说，直接上代码"><span class="toc-text">废话不多说，直接上代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-Hexo-g-代表把-Hexo-全局安装到系统中"><span class="toc-text">安装 Hexo ( -g 代表把 Hexo 全局安装到系统中)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#升级到最新版-这个可选如果初次安装一般都是最新版"><span class="toc-text">升级到最新版(这个可选如果初次安装一般都是最新版)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接下来我们开始新建一个项目"><span class="toc-text">接下来我们开始新建一个项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-Hexo-需要的模块"><span class="toc-text">安装 Hexo 需要的模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建博客"><span class="toc-text">新建博客</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#把我们的博客放到-GitHub-上"><span class="toc-text">把我们的博客放到 GitHub 上</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先我们要知道一些关于-GitHub-Pages"><span class="toc-text">首先我们要知道一些关于 GitHub Pages:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在-GitHub-上搭建我们的博客有两种方式："><span class="toc-text">在 GitHub 上搭建我们的博客有两种方式：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为个人或组织建立-Pages-以我的为例"><span class="toc-text">为个人或组织建立 Pages (以我的为例)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为某个项目建立-Pages"><span class="toc-text">为某个项目建立 Pages</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在-Hexo-上配置发布到-GitHub"><span class="toc-text">在 Hexo 上配置发布到 GitHub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接下来把博客-deploy-到-GitHub-上"><span class="toc-text">接下来把博客 deploy 到 GitHub 上</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#大功告成啦"><span class="toc-text">大功告成啦!</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结一下"><span class="toc-text">总结一下</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搭建-Hexo"><span class="toc-text">搭建 Hexo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更新博客"><span class="toc-text">更新博客</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我是华丽的分界线"><span class="toc-text">我是华丽的分界线</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-hexo-blog" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">在 GitHub 上搭建 Hexo 个人博客</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.26</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>laizw</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://laizw.cn/hexo-blog/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="Hexo-简介"><a href="#Hexo-简介" class="headerlink" title="Hexo 简介"></a>Hexo 简介</h2><p><a href="https://github.com/hexojs/hexo" target="_blank" rel="external">Hexo</a> 是一款基于 Node.js 的静态博客框架。</p>
+<p><strong><em>用 Hexo 搭建博客有很多好处:</em></strong></p>
+<ul>
+<li><p>首先它支持 Markdown，这样我们撰写博客就会变得十分方便。</p>
+</li>
+<li><p>Hexo 的扩展性也十分强大，它支持EJS、Swig，我们还可以通过插件让它支持Haml，Jade，Less等。</p>
+</li>
+<li><p>Hexo 支持多线程，生成几百篇文章所需要的时间只不过几秒钟。</p>
+</li>
+<li><p>Hexo 支持一键部署，只需要一条命令就可以把博客发布到 GitHub 上。</p>
+</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="废话不多说，直接上代码"><a href="#废话不多说，直接上代码" class="headerlink" title="废话不多说，直接上代码"></a>废话不多说，直接上代码</h2><p>因为 Hexo 是基于 Node.js 的，所以在开始 Hexo 之前要在机器上搭建好 Node.js 的环境，那在这里我就不讲解 Node.js 的搭建了，大家可以在<a href="http://nodejs.cn/" target="_blank" rel="external">Node.js 中文网</a>(<a href="https://nodejs.org/en/" target="_blank" rel="external">英文</a>) 上看看。</p>
+<h3 id="安装-Hexo-g-代表把-Hexo-全局安装到系统中"><a href="#安装-Hexo-g-代表把-Hexo-全局安装到系统中" class="headerlink" title="安装 Hexo ( -g 代表把 Hexo 全局安装到系统中)"></a>安装 Hexo ( -g 代表把 Hexo 全局安装到系统中)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo -g</div></pre></td></tr></table></figure>
+<h3 id="升级到最新版-这个可选如果初次安装一般都是最新版"><a href="#升级到最新版-这个可选如果初次安装一般都是最新版" class="headerlink" title="升级到最新版(这个可选如果初次安装一般都是最新版)"></a>升级到最新版(这个可选如果初次安装一般都是最新版)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm update hexo -g</div></pre></td></tr></table></figure>
+<p>这样子 Hexo 就安装完了，简单吧~</p>
+<h3 id="接下来我们开始新建一个项目"><a href="#接下来我们开始新建一个项目" class="headerlink" title="接下来我们开始新建一个项目"></a>接下来我们开始新建一个项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/Documents</div><div class="line">$ hexo init hexoBlog</div></pre></td></tr></table></figure>
+<p><code>hexoBlog</code> 是自己取的一个名字。</p>
+<p>这行代码的作用是在 <code>Documents</code> 目录下自动新建一个名为 <code>hexoBlog</code> 文件夹，Hexo 会在这个文件夹内自动生成资料文件。</p>
+<p><strong>来看看这个文件夹有什么:</strong><br><img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-init.png" alt="hexoBlog"></p>
+<h3 id="安装-Hexo-需要的模块"><a href="#安装-Hexo-需要的模块" class="headerlink" title="安装 Hexo 需要的模块"></a>安装 Hexo 需要的模块</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> hexoBlog</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<p>接下来 npm 会自动帮我们安装所需要的模块，静静的等它安装完，然后我们看看安装完的文件夹变化<br><img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-new.png" alt="hexoBlog"></p>
+<p>这时候多了几个文件夹，这里我先不解释他们的作用，晚点我会再写一篇博客具体讲解里面的所有文件。</p>
+<p><strong>到这一步博客就已经安装完了</strong></p>
+<h3 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h3><ul>
+<li>我们来新建一篇博客</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"hello hexo"</span> <span class="comment"># 等同于 hexo n</span></div></pre></td></tr></table></figure>
+<p><code>hello hexo</code> 是我们新建博客标题。</p>
+<ul>
+<li>生成静态网站</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate <span class="comment"># 等同于 hexo g</span></div></pre></td></tr></table></figure>
+<p>Hexo 速度很快，几乎秒生成。</p>
+<ul>
+<li>在本地跑一下看看效果</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server <span class="comment"># 等同于 hexo s</span></div></pre></td></tr></table></figure>
+<p>Hexo 默认 <strong><em>4000</em></strong> 端口，打开浏览器输入 <strong><em><a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a></em></strong> 看看我们的博客。</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-site.png" alt="hexoBlog-Site"></p>
+<p>可以看到我们新建的那篇 <strong><em>hello hexo</em></strong></p>
+<h3 id="把我们的博客放到-GitHub-上"><a href="#把我们的博客放到-GitHub-上" class="headerlink" title="把我们的博客放到 GitHub 上"></a>把我们的博客放到 GitHub 上</h3><h4 id="首先我们要知道一些关于-GitHub-Pages"><a href="#首先我们要知道一些关于-GitHub-Pages" class="headerlink" title="首先我们要知道一些关于 GitHub Pages:"></a>首先我们要知道一些关于 GitHub Pages:</h4><ol>
+<li>GitHub Pages 是免费的静态站点;</li>
+<li>搭建简单而且免费;</li>
+<li>自带主题，支持自定义页面;</li>
+<li>支持绑定域名;</li>
+</ol>
+<p>我们可以看到，GitHub Pages 十分适合我们在上面挂我们的博客。</p>
+<h4 id="在-GitHub-上搭建我们的博客有两种方式："><a href="#在-GitHub-上搭建我们的博客有两种方式：" class="headerlink" title="在 GitHub 上搭建我们的博客有两种方式："></a>在 GitHub 上搭建我们的博客有两种方式：</h4><ul>
+<li>为个人或组织建立 Pages。</li>
+<li>为某个项目建立 Pages。</li>
+</ul>
+<p>上面两种方式我都会给大家详细讲解一下。</p>
+<h5 id="为个人或组织建立-Pages-以我的为例"><a href="#为个人或组织建立-Pages-以我的为例" class="headerlink" title="为个人或组织建立 Pages (以我的为例)"></a>为个人或组织建立 Pages (以我的为例)</h5><p>我在 GitHub 上的用户名是<code>laichanwai</code></p>
+<ol>
+<li><p>登录 GitHub 并在 自己或组织 下建立一个名为 <code>laichanwai.github.io</code> 的仓库。<img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-github.png" alt="我的 Pages 仓库"></p>
+</li>
+<li><p>完成了，我们可以通过  <a href="http://laichanwai.github.io/" target="_blank" rel="external">http://laichanwai.github.io</a> 来访问我们的博客。</p>
+</li>
+</ol>
+<h5 id="为某个项目建立-Pages"><a href="#为某个项目建立-Pages" class="headerlink" title="为某个项目建立 Pages"></a>为某个项目建立 Pages</h5><ol>
+<li>登录 GitHub，进入具体的项目</li>
+<li>新建一个名为 <code>gh-pages</code> 的 Branch(分支)，注意名字一定要输入正确。<img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-github-project.png" alt="项目 Pages"></li>
+<li>完成了，我们可以通过 <em><a href="http://username.github.com/projectname" target="_blank" rel="external">http://username.github.com/projectname</a></em> 访问我们的站点。</li>
+</ol>
+<h3 id="在-Hexo-上配置发布到-GitHub"><a href="#在-Hexo-上配置发布到-GitHub" class="headerlink" title="在 Hexo 上配置发布到 GitHub"></a>在 Hexo 上配置发布到 GitHub</h3><p>在本地进入到 <code>hexoBlog</code> 目录，然后用编辑器打开 <code>_config.yml</code> 这个文件。</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-config-deploy.png" alt="_config.yml"></p>
+<p>注意到最下面的那两行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type:</div></pre></td></tr></table></figure>
+<p>我们把它改为</p>
+<p><img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-config-deploy-new.png" alt="deploy"></p>
+<p><code>repo:</code> 的地址在 GitHub 上获取 (<em>假设你已经在 GitHub 上添加了本机的 SSH</em>)。<br><img src="http://7xlykq.com1.z0.glb.clouddn.com/hexoblog-github-ssh.png" alt="SSH"></p>
+<h3 id="接下来把博客-deploy-到-GitHub-上"><a href="#接下来把博客-deploy-到-GitHub-上" class="headerlink" title="接下来把博客 deploy 到 GitHub 上"></a>接下来把博客 deploy 到 GitHub 上</h3><p>切换到终端输入:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy <span class="comment"># 等同于 hexo d</span></div></pre></td></tr></table></figure>
+<h4 id="大功告成啦"><a href="#大功告成啦" class="headerlink" title="大功告成啦!"></a>大功告成啦!</h4><h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3><h4 id="搭建-Hexo"><a href="#搭建-Hexo" class="headerlink" title="搭建 Hexo"></a>搭建 Hexo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo -g		<span class="comment"># 安装 Hexo</span></div><div class="line">$ hexo init hexoBlog		<span class="comment"># 新建 Hexo 项目 &lt;hexoBlog&gt;</span></div><div class="line">$ <span class="built_in">cd</span> hexoBlog			<span class="comment"># 进入 hexoBlog</span></div><div class="line">$ npm install			<span class="comment"># 安装 Hexo 模块</span></div><div class="line">$ hexo new <span class="string">"Hello Hexo"</span>		<span class="comment"># 新建一篇博客</span></div><div class="line">$ hexo generate		<span class="comment"># 生成静态网站</span></div><div class="line">$ hexo server			<span class="comment"># 在本地跑一遍网站 默认 http://localhost:4000</span></div><div class="line">$ hexo deploy			<span class="comment"># 开始部署</span></div></pre></td></tr></table></figure>
+<h4 id="更新博客"><a href="#更新博客" class="headerlink" title="更新博客"></a>更新博客</h4><p>以后写博客的时候只需要做下面几个操作就可以了，十分方便。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"title"</span>	<span class="comment"># 新建博客</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo g	<span class="comment"># 生成静态网站</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo s	<span class="comment"># 在本地预览网站效果</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo d	<span class="comment"># 开始部署</span></div></pre></td></tr></table></figure>
+<hr>
+<h2 id="我是华丽的分界线"><a href="#我是华丽的分界线" class="headerlink" title="我是华丽的分界线"></a>我是华丽的分界线</h2><blockquote>
+<p>这是小弟第一次写博客，可能有很多不足的地方，希望大家可以多多指教。</p>
+<p>我是一个iOS码农，刚接触前端不到一个星期，如果博客要是有错漏的地方希望大家能够给我指出，谢谢各路大侠。</p>
+<p>接下来我会和大家一起学习，一边学习一边完善我的Blog。</p>
+</blockquote>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">可以请我喝瓶可乐吗？</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016nian-05yue-24ri/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/dui-ghost-de-gan-wu/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              归档
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'laichanwai';
+    
+    var disqus_url = 'http://laizw.cn/hexo-blog/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//laichanwai.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

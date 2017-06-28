@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS 宏 | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,DEBUG," />
+  
+
+  <meta name="description" content="文件包含 #include #import #include_next  宏定义 #define #undef  条件编译 #if #else #endif #if define #ifdef #ifndef #elif  错误、警告处理 #error #warning  编辑器分段 #pragma #pragma mark xxx #pragma mark - xxx  其他 #line num">
+<meta name="keywords" content="iOS,DEBUG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 宏">
+<meta property="og:url" content="http://laizw.cn/ios-macro/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="文件包含 #include #import #include_next  宏定义 #define #undef  条件编译 #if #else #endif #if define #ifdef #ifndef #elif  错误、警告处理 #error #warning  编辑器分段 #pragma #pragma mark xxx #pragma mark - xxx  其他 #line num">
+<meta property="og:updated_time" content="2016-08-26T04:15:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 宏">
+<meta name="twitter:description" content="文件包含 #include #import #include_next  宏定义 #define #undef  条件编译 #if #else #endif #if define #ifdef #ifndef #elif  错误、警告处理 #error #warning  编辑器分段 #pragma #pragma mark xxx #pragma mark - xxx  其他 #line num">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            归档
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件包含"><span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宏定义"><span class="toc-text">宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件编译"><span class="toc-text">条件编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误、警告处理"><span class="toc-text">错误、警告处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑器分段"><span class="toc-text">编辑器分段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xcode-中预定义的宏"><span class="toc-text">Xcode 中预定义的宏</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-ios-macro" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">iOS 宏</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.08.26</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>laizw</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://laizw.cn/ios-macro/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h2><ol>
+<li><code>#include</code></li>
+<li><code>#import</code></li>
+<li><code>#include_next</code></li>
+</ol>
+<h2 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h2><ol>
+<li><code>#define</code></li>
+<li><code>#undef</code></li>
+</ol>
+<h2 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h2><ol>
+<li><code>#if #else #endif</code></li>
+<li><code>#if define #ifdef #ifndef #elif</code></li>
+</ol>
+<h2 id="错误、警告处理"><a href="#错误、警告处理" class="headerlink" title="错误、警告处理"></a>错误、警告处理</h2><ol>
+<li><code>#error</code></li>
+<li><code>#warning</code></li>
+</ol>
+<h2 id="编辑器分段"><a href="#编辑器分段" class="headerlink" title="编辑器分段"></a>编辑器分段</h2><ol>
+<li><code>#pragma</code></li>
+<li><code>#pragma mark xxx</code></li>
+<li><code>#pragma mark - xxx</code></li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li><code>#line number</code></li>
+<li><code>#line number &quot;filename&quot;</code></li>
+</ol>
+<h2 id="Xcode-中预定义的宏"><a href="#Xcode-中预定义的宏" class="headerlink" title="Xcode 中预定义的宏"></a>Xcode 中预定义的宏</h2><ol>
+<li><code>__FUNCTION__</code></li>
+<li><code>__func__</code></li>
+<li><code>__PRETTY_FUNCTION__</code></li>
+<li><code>__LINE__</code></li>
+<li><code>__FILE__</code></li>
+<li><code>__DATE__</code></li>
+<li><code>__TIME__</code></li>
+<li><code>__TIMESTAMP__</code></li>
+</ol>
+<p>Objective-C <code>- (void)runTestMacro:(id)arg1 arg2:(NSInteger)arg2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">__FUNCTION__        -[TestObj runTestMacro:arg2:]</div><div class="line">__func__            -[TestObj runTestMacro:arg2:]</div><div class="line">__PRETTY_FUNCTION__ -[TestObj runTestMacro:arg2:]</div><div class="line">__LINE__            17</div><div class="line">__FILE__            /Users/laizw/Documents/Demo/MacroDemo1/MacroDemo1/TestObj.m</div><div class="line">__DATE__            Aug  3 2016</div><div class="line">__TIME__            15:58:13</div><div class="line">__TIMESTAMP__       Wed Aug  3 15:57:42 2016</div></pre></td></tr></table></figure>
+<p>C/C++ <code>void TestFunction(int arg1, int arg2)</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">__FUNCTION__        TestFunction</div><div class="line">__func__            TestFunction</div><div class="line">__PRETTY_FUNCTION__ void TestFunction(int, int)</div><div class="line">__LINE__            16</div><div class="line">__FILE__            /Users/laizw/Documents/Demo/MacroDemo1/MacroDemo1/main.m</div><div class="line">__DATE__            Aug  3 2016</div><div class="line">__TIME__            15:59:41</div><div class="line">__TIMESTAMP__       Wed Aug  3 15:59:41 2016</div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">可以请我喝瓶可乐吗？</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/lldb-debug-chisel/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              归档
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'laichanwai';
+    
+    var disqus_url = 'http://laizw.cn/ios-macro/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//laichanwai.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
